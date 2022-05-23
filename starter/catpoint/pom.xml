@@ -16,25 +16,27 @@
     <module>com.udacity.catpoint.security</module>
   </modules>
 
-	<!--
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
+	<maven.compiler.release>11</maven.compiler.release>
   </properties>
-   -->
+   
   
+  <!--
   <properties>
         <maven.compiler.release>11</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
+  -->
 
   <dependencies>
 	
 	<dependency>
     	<groupId>org.junit.jupiter</groupId>
-        <artifactId>junit-jupiter-api</artifactId>
-        <version>5.7.0</version>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.9.0-M1</version>
         <scope>test</scope>
 	</dependency>
 
