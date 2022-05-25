@@ -33,18 +33,24 @@ import java.util.stream.Collectors;
  *      aws.secret=[your Secret access key]
  *      aws.region=[an aws region of choice. For example: us-east-2]
  */
-public class AwsImageService {
+public class AwsImageService implements ImageService
+{
 
     private Logger log = LoggerFactory.getLogger(AwsImageService.class);
 
     //aws recommendation is to maintain only a single instance of client objects
     private static RekognitionClient rekognitionClient;
 
-    public AwsImageService() {
+    public AwsImageService()
+	{
         Properties props = new Properties();
-        try (InputStream is = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+		
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("config.properties"))
+		{
             props.load(is);
-        } catch (IOException ioe ) {
+        } 
+		catch (IOException ioe )
+		{
             log.error("Unable to initialize AWS Rekognition, no properties file found", ioe);
             return;
         }
@@ -66,22 +72,30 @@ public class AwsImageService {
      * @param confidenceThreshhold Minimum threshhold to consider for cat. For example, 90.0f would require 90% confidence minimum
      * @return
      */
-    public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold) {
+	@Override 
+    public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold)
+	{
         Image awsImage = null;
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
+		
+        try (ByteArrayOutputStream os = new ByteArrayOutputStream())
+		{
             ImageIO.write(image, "jpg", os);
             awsImage = Image.builder().bytes(SdkBytes.fromByteArray(os.toByteArray())).build();
-        } catch (IOException ioe) {
+        }
+		catch (IOException ioe)
+		{
             log.error("Error building image byte array", ioe);
             return false;
         }
+		
         DetectLabelsRequest detectLabelsRequest = DetectLabelsRequest.builder().image(awsImage).minConfidence(confidenceThreshhold).build();
         DetectLabelsResponse response = rekognitionClient.detectLabels(detectLabelsRequest);
         logLabelsForFun(response);
         return response.labels().stream().filter(l -> l.name().toLowerCase().contains("cat")).findFirst().isPresent();
     }
 
-    private void logLabelsForFun(DetectLabelsResponse response) {
+    private void logLabelsForFun(DetectLabelsResponse response)
+	{
         log.info(response.labels().stream()
                 .map(label -> String.format("%s(%.1f%%)", label.name(), label.confidence()))
                 .collect(Collectors.joining(", ")));

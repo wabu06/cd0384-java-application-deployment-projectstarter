@@ -19,15 +19,19 @@ import java.util.Set;
  * This is the class that should contain most of the business logic for our system, and it is the
  * class you will be writing unit tests for.
  */
-public class SecurityService {
+public class SecurityService
+{
 
-    private FakeImageService imageService;
+    //private FakeImageService imageService;
+	private ImageService imageService;
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
 
-    public SecurityService(SecurityRepository securityRepository, FakeImageService imageService) {
+    //public SecurityService(SecurityRepository securityRepository, FakeImageService imageService)
+	public SecurityService(SecurityRepository securityRepository)
+	{
         this.securityRepository = securityRepository;
-        this.imageService = imageService;
+        this.imageService = new FakeImageService();
     }
 
     /**
