@@ -12,6 +12,10 @@ import java.awt.image.BufferedImage;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.inject.Guice;
+import javax.inject.Inject;
+
+
 /**
  * Service that receives information about changes to the security system. Responsible for
  * forwarding updates to the repository and making any decisions about changing the system state.
@@ -21,9 +25,10 @@ import java.util.Set;
  */
 public class SecurityService
 {
-
-    //private FakeImageService imageService;
+    	//private FakeImageService imageService;
+	@Inject
 	private ImageService imageService;
+	
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
 
@@ -31,7 +36,9 @@ public class SecurityService
 	public SecurityService(SecurityRepository securityRepository)
 	{
         this.securityRepository = securityRepository;
-        this.imageService = new FakeImageService();
+        //this.imageService = new FakeImageService();
+		
+		Guice.createInjector( new ImageServiceModule() ).injectMembers(this);
     }
 
     /**

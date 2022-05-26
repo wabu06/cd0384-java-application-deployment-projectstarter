@@ -13,6 +13,9 @@ public class FakeImageService implements ImageService
     @Override
 	public boolean imageContainsCat(BufferedImage image, float confidenceThreshhold)
 	{
-        return r.nextBoolean();
+		if( (r.nextFloat()*confidenceThreshhold) > (confidenceThreshhold/2) )
+		 	return true;
+		else
+			return false;
     }
 }
