@@ -34,9 +34,10 @@ public class CatpointGui extends JFrame
 
     public CatpointGui()
 	{
-        setLocation(100, 100);
+        //setLocation(100, 100);
+		setLocation(100, 90);
         //setSize(600, 850);
-		setSize(600, 700);
+		setSize(600, 720);
         setTitle("Very Secure App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

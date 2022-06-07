@@ -15,7 +15,6 @@ import java.io.IOException;
 
 import java.util.*;
 import java.nio.file.*;
-import java.util.stream.*;
 
 /** Panel containing the 'camera' output. Allows users to 'refresh' the camera
  * by uploading their own picture, and 'scan' the picture, sending it for image analysis
@@ -74,7 +73,7 @@ public class ImagePanel extends JPanel implements StatusListener
 	{
 		int size = bImages.size();
 		
-		currentCameraImage = bImages.get( RNG.nextInt(size) );
+		currentCameraImage = bImages.get( RNG.nextInt(size-1) );
 		
 		Image tmp = new ImageIcon(currentCameraImage).getImage();
 		
@@ -83,98 +82,38 @@ public class ImagePanel extends JPanel implements StatusListener
 		repaint();
 	}
 	
-	private int showDialog(String msg)
-	{
-		Object[] options = {"TRY AGAIN", "QUIT"};
-		
-		return JOptionPane.showOptionDialog
-					(
-						null,
-						msg,
-						"ERROR",
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.ERROR_MESSAGE,
-						null,
-						options,
-						options[1]
-					);
-	}
-	
 	private void loadImages()
 	{
-		java.util.List<Path> cameraList = null;
-		
-		boolean repeat = true; int n;
-		
-		do {
-		
-			try( Stream<Path> pStream = Files.walk( Path.of(".").toAbsolutePath().resolve("..").normalize(), 5 ) )
-			{
-				cameraList = pStream.filter( p -> Files.isDirectory(p) )
-									.filter( p -> p.getFileName().toString().equalsIgnoreCase("camera") )
-									.collect( Collectors.toList() );
-			}
-			catch(Exception exp)
-			{
-				if( showDialog("No Camera Found") == 1 )
-					System.exit(1);
-			}
-		
-			if( cameraList.size() == 0 )
-			{
-				if( showDialog("No Camera Found") == 1 )
-					System.exit(1);
-			}
-			else
-				repeat = false;
-		
-		} while(repeat);
-		
 		Set<BufferedImage> imageSet = new HashSet<>();
+		
+		Path dir = Path.of("camera");
+		
 		BufferedImage img;
 		
-		repeat = true;
-		
-		do {
-		
-			for(Path cam: cameraList)
+   		try( DirectoryStream<Path> stream = Files.newDirectoryStream(dir) )
+		{
+			for(Path P: stream)
 			{
-   				try( DirectoryStream<Path> stream = Files.newDirectoryStream(cam) )
+				try
 				{
-					for(Path P: stream)
-					{
-						try
-						{
-							img = ImageIO.read( P.toFile() );
+					img = ImageIO.read( P.toFile() );
 					
-							if( img != null )
-								imageSet.add(img);
-						}
-						catch(Throwable exp)
-						{
-							continue;
-						}
-					}
+					if( img != null )
+						imageSet.add(img);
 				}
 				catch(Throwable exp)
 				{
 					continue;
 				}
 			}
+		}
+		catch(Throwable exp)
+		{
+			System.out.println("File I/O Error");
+			System.exit(1);
+		}
 		
-			bImages = new ArrayList<>(imageSet);
-			
-			if( bImages.size() == 0 )
-			{
-				if( showDialog("Cannot Get A Camera Feed") == 1 )
-					System.exit(1);
-			}
-			else
-				repeat = false;
-		
-		} while(repeat);
-		
-		JOptionPane.showMessageDialog(null, "image count: " + bImages.size());
+		bImages = new ArrayList<>(imageSet);
 	}
 
     @Override

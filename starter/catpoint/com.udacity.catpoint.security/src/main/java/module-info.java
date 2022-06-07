@@ -8,4 +8,8 @@ module com.udacity.catpoint.security
 	requires com.google.common;
 	requires com.google.guice;
 	requires javax.inject;
+	
+	opens com.udacity.catpoint.data;
+	
+	opens com.udacity.catpoint.service;
 }
