@@ -66,11 +66,19 @@ public class SensorPanel extends JPanel {
      * will display in the order that they are created.
      * @param p The Panel to populate with the current list of sensors
      */
-    private void updateSensorList(JPanel p) {
+    private void updateSensorList(JPanel p)
+	{
         p.removeAll();
-        securityService.getSensors().stream().sorted().forEach(s -> {
-            JLabel sensorLabel = new JLabel(String.format("%s(%s): %s", s.getName(),  s.getSensorType().toString(),(s.getActive() ? "Active" : "Inactive")));
-            JButton sensorToggleButton = new JButton((s.getActive() ? "Deactivate" : "Activate"));
+		
+        securityService.getSensors().stream().sorted().forEach(s ->
+		{
+            JLabel sensorLabel = new JLabel
+			(
+				String.format("%s(%s): %s", s.getName(),
+				s.getSensorType().toString(),(s.getActive() ? "Active" : "Inactive"))
+			);
+            
+			JButton sensorToggleButton = new JButton((s.getActive() ? "Deactivate" : "Activate"));
             JButton sensorRemoveButton = new JButton("Remove Sensor");
 
             sensorToggleButton.addActionListener(e -> setSensorActivity(s, !s.getActive()) );

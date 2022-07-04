@@ -174,7 +174,7 @@ public class ImagePanel extends JPanel implements StatusListener
 		
 		} while(repeat);
 		
-		JOptionPane.showMessageDialog(null, "image count: " + bImages.size());
+		//JOptionPane.showMessageDialog(null, "image count: " + bImages.size());
 	}
 
     @Override
