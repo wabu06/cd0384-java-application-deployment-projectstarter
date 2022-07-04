@@ -14,20 +14,20 @@ import org.junit.jupiter.params.*;
 import org.junit.jupiter.params.provider.*;
 
 
-public class SetAlarmStatusTest
+public class SetArmingStatusTest
 {
 	private SecurityRepository securityRepository;
 	private SecurityService securityService;
 	
 	@ParameterizedTest
-	@EnumSource(AlarmStatus.class)
-	public void alarmStatusTest(AlarmStatus as)
+	@EnumSource(ArmingStatus.class)
+	public void alarmArmedTest(ArmingStatus as)
 	{
 		securityRepository = new MockSecurityRepository();
 		securityService = new SecurityService(securityRepository);
 		
-		securityService.setAlarmStatus(as);
+		securityService.setArmingStatus(as);
 		
-		assertEquals( as, securityService.getAlarmStatus() );
+		assertEquals( as, securityService.getArmingStatus() );
 	}
 }

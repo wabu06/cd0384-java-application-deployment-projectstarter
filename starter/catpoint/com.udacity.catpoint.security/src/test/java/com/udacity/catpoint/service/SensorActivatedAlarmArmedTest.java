@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.*;
 
 public class SensorActivatedAlarmArmedTest 
 {
-	private SecurityRepository securityRepository = new MockSecurityRepository(); ;
+	private SecurityRepository securityRepository = new MockSecurityRepository();
 	private SecurityService securityService = new SecurityService(securityRepository);
 	
 	List<ArmingStatus> armingStatusList  = List.of(ArmingStatus.ARMED_HOME, ArmingStatus.ARMED_AWAY);
