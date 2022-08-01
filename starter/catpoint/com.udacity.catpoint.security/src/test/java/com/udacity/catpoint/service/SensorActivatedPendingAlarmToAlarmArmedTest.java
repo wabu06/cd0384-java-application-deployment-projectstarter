@@ -19,7 +19,7 @@ import org.junit.jupiter.params.provider.*;
  * Unit test for Pending Alarm Status, when a sensor becomes active, and alarm armed.
  */
 
-public class SensorActivatedPendingAlarmArmedTest 
+public class SensorActivatedPendingAlarmToAlarmArmedTest 
 {
 	//private SecurityRepository securityRepository = new MockSecurityRepository();
 	//private SecurityService securityService = new SecurityService(securityRepository);
@@ -28,7 +28,7 @@ public class SensorActivatedPendingAlarmArmedTest
 	
     @ParameterizedTest
 	@EnumSource(SensorType.class)
-	public void PendingAlarmStatusTest(SensorType type)
+	public void AlarmStatusTest(SensorType type)
     {
 		SecurityRepository securityRepository = new MockSecurityRepository();
 		SecurityService securityService = new SecurityService(securityRepository);
@@ -48,7 +48,7 @@ public class SensorActivatedPendingAlarmArmedTest
 			//Sensor sensor = new Sensor("test sensor", type);
 			//securityService.addSensor(sensor); 
 
-			securityService.setAlarmStatus(AlarmStatus.NO_ALARM);
+			securityService.setAlarmStatus(AlarmStatus.PENDING_ALARM);
 			securityService.setArmingStatus(AS);
 		
 			//securityService.changeSensorActivationStatus(sensor, !Boolean.FALSE);
@@ -57,10 +57,9 @@ public class SensorActivatedPendingAlarmArmedTest
 		
 			panel.getSensorToggleBttn(0).doClick();
 		
-			assertEquals( AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus() );
+			assertEquals( AlarmStatus.ALARM, securityService.getAlarmStatus() );
 			
 			panel.getSensorToggleBttn(0).doClick();
 		} 
 	}
 }
-//No 1

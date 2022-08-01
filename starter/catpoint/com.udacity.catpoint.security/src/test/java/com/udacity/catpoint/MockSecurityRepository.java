@@ -5,7 +5,7 @@ import java.util.*;
 public class MockSecurityRepository implements SecurityRepository
 {
 	AlarmStatus alarm = AlarmStatus.NO_ALARM;
-	ArmingStatus armed;
+	ArmingStatus armed = ArmingStatus.DISARMED;
 	Set<Sensor> sensors = new TreeSet<>();
 	
 	@Override
@@ -31,7 +31,7 @@ public class MockSecurityRepository implements SecurityRepository
 	}
 	
 	@Override
-    public Set<Sensor> getSensors() { return null; }
+    public Set<Sensor> getSensors() { return sensors; }
 	
 	@Override
 	public void removeSensor(Sensor sensor) {}

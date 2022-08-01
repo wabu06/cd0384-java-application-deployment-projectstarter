@@ -1,7 +1,7 @@
 package com.udacity.catpoint.application;
 
-import com.udacity.catpoint.data.Sensor;
-import com.udacity.catpoint.data.SensorType;
+//import com.udacity.catpoint.data.Sensor;
+import com.udacity.catpoint.data.*;
 import com.udacity.catpoint.service.SecurityService;
 import com.udacity.catpoint.service.StyleService;
 import net.miginfocom.swing.MigLayout;
@@ -10,11 +10,17 @@ import javax.swing.*;
 
 import java.util.List;
 
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.params.*;
+import org.junit.jupiter.params.provider.*;
+
 /**
  * Panel that allows users to add sensors to their system. Sensors may be
  * manually set to "active" and "inactive" to test the system.
  */
-public class SensorPanel extends JPanel {
+public class SensorTestPanel extends JPanel {
 
     private SecurityService securityService;
 
@@ -27,8 +33,12 @@ public class SensorPanel extends JPanel {
 
     private JPanel sensorListPanel;
     private JPanel newSensorPanel;
+	
+	private JButton[] sensorToggleBttns = new JButton[3];
+	
+	private int b = 0; // sensor toggle button count
 
-    public SensorPanel(SecurityService securityService) {
+    public SensorTestPanel(SecurityService securityService) {
         super();
         setLayout(new MigLayout());
         this.securityService = securityService;
@@ -71,6 +81,7 @@ public class SensorPanel extends JPanel {
     private void updateSensorList(JPanel p)
 	{
         p.removeAll();
+		b = 0; // sensor toggle button count
 		
         securityService.getSensors().stream().sorted().forEach(s ->
 		{
@@ -85,6 +96,8 @@ public class SensorPanel extends JPanel {
 
             sensorToggleButton.addActionListener(e -> setSensorActivity(s, !s.getActive()) );
             sensorRemoveButton.addActionListener(e -> removeSensor(s));
+			
+			sensorToggleBttns[b] = sensorToggleButton; b++;
 
             //hard code some sizes, tsk tsk
             p.add(sensorLabel, "width 300:300:300");
@@ -127,4 +140,10 @@ public class SensorPanel extends JPanel {
         securityService.removeSensor(sensor);
         updateSensorList(sensorListPanel);
     }
+	
+	public JButton getSensorToggleBttn(int bttn) { return sensorToggleBttns[bttn]; }
+	
+	public JButton getAddSensorBttn() { return addNewSensorButton; }
+	
+	public JComboBox getSensorTypeDropdown() { return newSensorTypeDropdown; }
 }
