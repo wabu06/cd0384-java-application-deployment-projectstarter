@@ -109,8 +109,8 @@ public class SecurityService
     private void handleSensorDeactivated() {
         switch(securityRepository.getAlarmStatus()) {
             case PENDING_ALARM: /* PENDING_ALARM -> */ setAlarmStatus(AlarmStatus.NO_ALARM);
-            	break;
-			case ALARM: /* ALARM -> */ setAlarmStatus(AlarmStatus.PENDING_ALARM);
+            	//break;
+			//case ALARM: /* ALARM -> */ setAlarmStatus(AlarmStatus.PENDING_ALARM);
         }
     }
 
