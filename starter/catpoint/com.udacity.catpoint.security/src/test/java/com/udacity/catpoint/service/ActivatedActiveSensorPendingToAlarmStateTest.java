@@ -36,9 +36,7 @@ public class ActivatedActiveSensorPendingToAlarmStateTest
 		
 		JButton addSensorBttn = panel.getAddSensorBttn();
 		
-		panel.getSensorTypeDropdown().setSelectedItem(type);
-		addSensorBttn.doClick();
-		
+			// create sensors
 		for(SensorType T: sensorTypeList)
 		{
 			if( T != type )
@@ -48,37 +46,15 @@ public class ActivatedActiveSensorPendingToAlarmStateTest
 			}
 		}
 		
-			// create sensors
-		//panel.getSensorTypeDropdown().setSelectedItem(SensorType.DOOR);
-		//addSensorBttn.doClick();
-		
-		//panel.getSensorTypeDropdown().setSelectedItem(SensorType.WINDOW);
-		//addSensorBttn.doClick();
-		
-		//panel.getSensorTypeDropdown().setSelectedItem(SensorType.MOTION);
-		//addSensorBttn.doClick();
-		
-		//securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
-		
 		for(ArmingStatus S: armingStatusList)
 		{
 			securityService.setArmingStatus(S);
 		
 				// activate first sensor
 			panel.getSensorToggleBttn(0).doClick();
-			
-		//panel.getSensorToggleBttn(1).doClick();
-		//panel.getSensorToggleBttn(2).doClick();
-		
-		//securityService.setAlarmStatus(AlarmStatus.PENDING_ALARM);
 		
 				// activate second sensor
 			panel.getSensorToggleBttn(1).doClick();
-		
-			// deactivate sensors
-		//panel.getSensorToggleBttn(0).doClick();
-		//panel.getSensorToggleBttn(1).doClick();
-		//panel.getSensorToggleBttn(2).doClick();
 		
 			assertEquals( AlarmStatus.ALARM, securityService.getAlarmStatus() );
 			
