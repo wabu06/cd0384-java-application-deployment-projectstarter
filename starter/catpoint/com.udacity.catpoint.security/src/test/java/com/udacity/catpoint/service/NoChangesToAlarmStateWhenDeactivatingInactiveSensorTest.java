@@ -21,21 +21,18 @@ import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 
-/**
- * If alarm is armed and a sensor becomes activated, put the system into pending alarm status.
- */
-
-public class SensorActivatedPendingAlarmArmedTest  // No 1
-{	
-	List<ArmingStatus> armingStatusList  = List.of(ArmingStatus.ARMED_HOME, ArmingStatus.ARMED_AWAY);
+	// Unit test for making no changes to alarm state, if deactivating a sensor that is already inactive
+public class NoChangesToAlarmStateWhenDeactivatingInactiveSensorTest // No. 6
+{
+	List<AlarmStatus> AlarmStatusList = List.of(AlarmStatus.NO_ALARM, AlarmStatus.PENDING_ALARM, AlarmStatus.ALARM);
 	
-    @ParameterizedTest
+	@ParameterizedTest
 	@EnumSource(SensorType.class)
-	public void PendingAlarmStatusTest(SensorType type)
-    {
-		SecurityRepository securityRepository = new MockSecurityRepository();
-		
+	public void DeactivatingInactiveSensorTest(SensorType type)
+	{
 		ImageService mockImageService = mock(ImageService.class);
+		
+		SecurityRepository securityRepository = new MockSecurityRepository();
 		
 		Injector ssInj = Guice.createInjector
 			(
@@ -47,22 +44,20 @@ public class SensorActivatedPendingAlarmArmedTest  // No 1
 		
 		//SecurityService securityService = new SecurityService(securityRepository);
 		
-		SensorTestPanel panel = new SensorTestPanel(securityService);
+		AlarmStatus cas = securityService.getAlarmStatus(); // current alarm status
 		
-		panel.getSensorTypeDropdown().setSelectedItem(type);
-		panel.getAddSensorBttn().doClick();
+		Sensor testSensor = new Sensor("test", type);
 		
-		for(ArmingStatus AS: armingStatusList)
+		for(AlarmStatus S: AlarmStatusList)
 		{
-			securityService.setAlarmStatus(AlarmStatus.NO_ALARM);
-			securityService.setArmingStatus(AS);
-				
-			panel.getSensorToggleBttn(0).doClick();
-		
-			assertEquals( AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus() );
+			securityService.setAlarmStatus(S);
 			
-			panel.getSensorToggleBttn(0).doClick();
-		} 
+			testSensor.setActive(Boolean.FALSE);
+		
+			securityService.changeSensorActivationStatus(testSensor, Boolean.FALSE);
+		
+			assertEquals( S, securityService.getAlarmStatus() );
+		}
 	}
 }
 

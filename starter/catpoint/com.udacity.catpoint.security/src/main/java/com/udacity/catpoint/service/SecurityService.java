@@ -26,19 +26,21 @@ import javax.inject.Inject;
 public class SecurityService
 {
     	//private FakeImageService imageService;
-	@Inject
+	//@Inject
 	private ImageService imageService;
 	
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
 
-    //public SecurityService(SecurityRepository securityRepository, FakeImageService imageService)
-	public SecurityService(SecurityRepository securityRepository)
+	//public SecurityService(SecurityRepository securityRepository)
+	@Inject
+	public SecurityService(SecurityRepository securityRepository, ImageService imageService)
 	{
         this.securityRepository = securityRepository;
         //this.imageService = new FakeImageService();
+		this.imageService = imageService;
 		
-		Guice.createInjector( new ImageServiceModule() ).injectMembers(this);
+		//Guice.createInjector( new ImageServiceModule() ).injectMembers(this);
     }
 
     /**
