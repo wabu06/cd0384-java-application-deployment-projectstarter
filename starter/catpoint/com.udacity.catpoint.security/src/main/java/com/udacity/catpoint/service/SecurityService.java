@@ -60,12 +60,12 @@ public class SecurityService
      * the camera currently shows a cat.
      * @param cat True if a cat is detected, otherwise false.
      */
-    private void catDetected(Boolean cat) {
-        if(cat && getArmingStatus() == ArmingStatus.ARMED_HOME) {
+    private void catDetected(Boolean cat)
+	{
+        if( cat && getArmingStatus() == ArmingStatus.ARMED_HOME )
             setAlarmStatus(AlarmStatus.ALARM);
-        } else {
+        else
             setAlarmStatus(AlarmStatus.NO_ALARM);
-        }
 
         statusListeners.forEach(sl -> sl.catDetected(cat));
     }
