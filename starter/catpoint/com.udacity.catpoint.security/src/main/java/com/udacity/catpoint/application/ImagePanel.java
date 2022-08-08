@@ -54,7 +54,7 @@ public class ImagePanel extends JPanel implements StatusListener
         	//button allowing users to select a file to be the current camera image
         JButton refreshButton = new JButton("Refresh Camera");
 		
-        refreshButton.addActionListener( e -> showRandImage() );
+        refreshButton.addActionListener( e -> { showRandImage(); securityService.processImage(currentCameraImage); } );
 
         	//button that sends the image to the image service
         JButton scanPictureButton = new JButton("Scan Picture");

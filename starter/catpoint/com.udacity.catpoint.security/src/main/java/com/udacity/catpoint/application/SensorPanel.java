@@ -127,4 +127,6 @@ public class SensorPanel extends JPanel {
         securityService.removeSensor(sensor);
         updateSensorList(sensorListPanel);
     }
+	
+	public void extUpdateSensorList() { updateSensorList(sensorListPanel); }
 }

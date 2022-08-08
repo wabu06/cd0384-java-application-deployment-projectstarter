@@ -52,6 +52,7 @@ public class SystemArmedSoSetSensorsToInactiveTest // No 10
 		for(Sensor s: securityService.getSensors())
 			s.setActive(Boolean.TRUE);
 		
+		assertEquals( ArmingStatus.DISARMED, securityService.getArmingStatus() );
 		securityService.setArmingStatus(arm);
 		
 		for(Sensor s: securityService.getSensors())
