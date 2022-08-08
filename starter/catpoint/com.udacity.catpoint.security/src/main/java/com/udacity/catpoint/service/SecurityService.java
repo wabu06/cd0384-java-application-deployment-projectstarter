@@ -48,10 +48,14 @@ public class SecurityService
      * may update both the alarm status.
      * @param armingStatus
      */
-    public void setArmingStatus(ArmingStatus armingStatus) {
-        if(armingStatus == ArmingStatus.DISARMED) {
-            setAlarmStatus(AlarmStatus.NO_ALARM);
-        }
+    public void setArmingStatus(ArmingStatus armingStatus)
+	{
+        if(armingStatus == ArmingStatus.DISARMED)
+        	setAlarmStatus(AlarmStatus.NO_ALARM);
+		
+		if(armingStatus != ArmingStatus.DISARMED)
+			getSensors().forEach( s -> s.setActive(Boolean.FALSE) );
+
         securityRepository.setArmingStatus(armingStatus);
     }
 
