@@ -17,10 +17,11 @@ import java.util.*;
 import java.nio.file.*;
 import java.util.stream.*;
 
+
 /** Panel containing the 'camera' output. Allows users to 'refresh' the camera
  * by uploading their own picture, and 'scan' the picture, sending it for image analysis
  */
-public class ImagePanel extends JPanel implements StatusListener
+public class ImageTestPanel extends JPanel implements StatusListener
 {
     private SecurityService securityService;
 
@@ -35,7 +36,7 @@ public class ImagePanel extends JPanel implements StatusListener
     private int IMAGE_WIDTH = 300;
     private int IMAGE_HEIGHT = 225;
 
-    public ImagePanel(SecurityService securityService)
+    public ImageTestPanel(SecurityService securityService)
 	{
         super();
 		
@@ -194,3 +195,4 @@ public class ImagePanel extends JPanel implements StatusListener
 	
 	public BufferedImage getCurrentCameraImage() { return currentCameraImage; }
 }
+

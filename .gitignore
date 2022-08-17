@@ -8,8 +8,9 @@ log/
 target/
 
 # Java
-config.properties
+#config.properties
 
-no-cats-b64.txt
 *~
+
+WinIcon.java
 

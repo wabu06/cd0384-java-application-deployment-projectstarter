@@ -16,9 +16,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javax.inject.Inject;
 
-import java.io.InputStream;
-
-
 /**
  * This is the primary JFrame for the application that contains all the top-level JPanels.
  *
@@ -41,9 +38,8 @@ public class CatpointGui extends JFrame
 	
     private DisplayPanel displayPanel = new DisplayPanel(securityService);
     private SensorPanel sensorPanel = new SensorPanel(securityService);
-	private ImagePanel imagePanel = new ImagePanel(securityService);
-	private ControlPanel controlPanel = new ControlPanel(securityService, sensorPanel, imagePanel);
-    //private ImagePanel imagePanel = new ImagePanel(securityService);
+	private ControlPanel controlPanel = new ControlPanel(securityService, sensorPanel);
+    private ImagePanel imagePanel = new ImagePanel(securityService);
 
     public CatpointGui()
 	{
@@ -54,18 +50,9 @@ public class CatpointGui extends JFrame
         setTitle("Very Secure App");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		//ImageIcon icon = new ImageIcon("no-cats.jpeg");
+		ImageIcon icon = new ImageIcon("no-cats.jpeg");
 		
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream("no-cats.jpeg") )
-		{
-			ImageIcon icon = new ImageIcon( is.readAllBytes() );
-			setIconImage( icon.getImage() );
-		}
-		catch(Exception e) {}
-		
-		//ImageIcon icon = new ImageIcon( getClass().getResource("no-cats.jpeg").toString() );
-		
-		//System.out.println( getClass().getClassLoader().getResource("no-cats.jpeg") );
+		setIconImage( icon.getImage() );
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new MigLayout());

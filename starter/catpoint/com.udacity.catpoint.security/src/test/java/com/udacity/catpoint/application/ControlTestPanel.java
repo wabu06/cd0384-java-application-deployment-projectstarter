@@ -13,14 +13,14 @@ import java.util.stream.Collectors;
 /**
  * JPanel containing the buttons to manipulate arming status of the system.
  */
-public class ControlPanel extends JPanel {
+public class ControlTestPanel extends JPanel {
 
     private SecurityService securityService;
     private Map<ArmingStatus, JButton> buttonMap;
 	
-	SensorPanel sensors;
+	SensorTestPanel sensors;
 
-    public ControlPanel(SecurityService securityService, SensorPanel sensors, ImagePanel image)
+    public ControlTestPanel(SecurityService securityService, SensorTestPanel sensors, ImageTestPanel image)
 	{
         super();
 		
@@ -60,4 +60,6 @@ public class ControlPanel extends JPanel {
         ArmingStatus currentStatus = securityService.getArmingStatus();
         buttonMap.get(currentStatus).setBackground(currentStatus.getColor());
     }
+
+    public JButton getArmedHomeButton() { return buttonMap.get(ArmingStatus.ARMED_HOME); } 
 }

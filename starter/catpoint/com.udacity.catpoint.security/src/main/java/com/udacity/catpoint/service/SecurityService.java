@@ -57,6 +57,9 @@ public class SecurityService
 			getSensors().forEach( s -> s.setActive(Boolean.FALSE) );
 
         securityRepository.setArmingStatus(armingStatus);
+		
+		//if( armingStatus == ArmingStatus.ARMED_HOME )
+			//processImage( getCurrentCameraImage() );
     }
 
     /**

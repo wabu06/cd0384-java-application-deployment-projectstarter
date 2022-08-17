@@ -146,4 +146,6 @@ public class SensorTestPanel extends JPanel {
 	public JButton getAddSensorBttn() { return addNewSensorButton; }
 	
 	public JComboBox getSensorTypeDropdown() { return newSensorTypeDropdown; }
+	
+	public void extUpdateSensorList() { updateSensorList(sensorListPanel); }
 }
