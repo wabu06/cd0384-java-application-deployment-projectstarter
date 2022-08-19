@@ -44,7 +44,12 @@ public class CameraShowsCatSystemArmedToAlarmedStatusTest // Unit Test 11
 		
 		when( mockImageService.imageContainsCat( any(BufferedImage.class), anyFloat() ) ).thenReturn(Boolean.TRUE);
 		
-		ControlTestPanel panel = new ControlTestPanel(securityService, new SensorTestPanel(securityService), new ImageTestPanel(securityService));
+		ControlTestPanel panel = new ControlTestPanel
+										(
+											securityService,
+											new SensorTestPanel(securityService),
+											new ImageTestPanel(securityService)
+										);
 		
 		if(arm != ArmingStatus.ARMED_HOME)
 		{

@@ -15,9 +15,10 @@ public class ImageServiceModule extends AbstractModule
 	@Override
 	protected void configure()
 	{
-		String config = "com.udacity.catpoint.security/src/main/config/config.properties";
+		//String config = "com.udacity.catpoint.security/src/main/config/config.properties";
 		
-		try( InputStream is = Files.newInputStream( Path.of(config) ) )
+		//try( InputStream is = Files.newInputStream( Path.of(config) ) 
+		try ( InputStream is = getClass().getClassLoader().getResourceAsStream("config.properties") )
 		{
 			Properties props = new Properties();
 			

@@ -25,22 +25,26 @@ public class FakeImageService implements ImageService
 	
 	public FakeImageService()
 	{
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/sample-cat.jpg") )
+		for(String imgFile: new File("camera").list() )
 		{
-			try
+			if( imgFile.compareTo("sample-cat.jpg") == 0 )
 			{
-				BufferedImage img = ImageIO.read(is);
+				try
+				{
+					BufferedImage img = ImageIO.read( new File("camera/" + imgFile) );
 					
-				int w = img.getWidth();
-				int h = img.getHeight();
+					int w = img.getWidth();
+					int h = img.getHeight();
 					
-				int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
+					int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
 					
-				imgHash = Arrays.hashCode(rgb);
-			}
-			catch(Exception exp) { System.out.println(exp + ": File I/O Error"); }
+					imgHash = Arrays.hashCode(rgb);
+				}
+				catch(Exception exp) { System.out.println(exp + ": File I/O Error"); }
+				
+				break;
+			} 
 		}
-		catch(Exception exp) {}
 		
 		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
 		{
