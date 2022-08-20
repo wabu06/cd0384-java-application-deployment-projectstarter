@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import java.io.*;
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 
 
@@ -40,14 +41,25 @@ public class FakeImageService implements ImageService
 			}
 			catch(Exception exp) { System.out.println(exp + ": File I/O Error"); }
 		}
-		catch(Exception exp) {}
+		catch(Exception exp)
+		{
+			JOptionPane.showMessageDialog
+				(
+					null,
+					"Unable To Find A Critical Resource, Application Will Now Terminate",
+					"ERROR",
+					JOptionPane.ERROR_MESSAGE
+				);
+
+			System.exit(1);
+		}
 		
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
+		/* try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
 		{
 			Stream<String> entries = new BufferedReader( new InputStreamReader(is) ).lines();
 			System.out.println(entries.findAny().get());
 		}
-		catch(Exception exp) {}
+		catch(Exception exp) {} */
 	}
 
     @Override

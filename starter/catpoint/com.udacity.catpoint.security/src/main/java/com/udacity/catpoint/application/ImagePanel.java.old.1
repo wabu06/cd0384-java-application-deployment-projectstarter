@@ -10,11 +10,11 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
 import java.io.IOException;
 
 import java.util.*;
-//import java.nio.file.*;
+import java.nio.file.*;
 import java.util.stream.*;
 
 /** Panel containing the 'camera' output. Allows users to 'refresh' the camera
@@ -27,10 +27,8 @@ public class ImagePanel extends JPanel implements StatusListener
     private JLabel cameraHeader;
     private JLabel cameraLabel;
 	
-	//private java.util.List<BufferedImage> bImages;
+	private java.util.List<BufferedImage> bImages;
     private BufferedImage currentCameraImage;
-    
-    private java.util.List<String> fileNames;
 	
 	private Random RNG = new Random();
 
@@ -62,7 +60,7 @@ public class ImagePanel extends JPanel implements StatusListener
         JButton scanPictureButton = new JButton("Scan Picture");
         scanPictureButton.addActionListener( e -> securityService.processImage(currentCameraImage) );
 
-        getImageFileNames();
+        loadImages();
 		
 		add(cameraHeader, "span 3, wrap");
         add(cameraLabel, "span 3, wrap");
@@ -74,24 +72,9 @@ public class ImagePanel extends JPanel implements StatusListener
 	
 	private void showRandImage()
 	{
-		int size = fileNames.size();
+		int size = bImages.size();
 		
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream( "camera/" + fileNames.get( RNG.nextInt(size) ) ) )
-		{
-			currentCameraImage = ImageIO.read(is);
-		}
-		catch(Exception exp)
-		{
-			JOptionPane.showMessageDialog
-				(
-					null,
-					"Unable To Find A Critical Resource, Application Will Now Terminate",
-					"ERROR",
-					JOptionPane.ERROR_MESSAGE
-				);
-
-			System.exit(1);
-		}
+		currentCameraImage = bImages.get( RNG.nextInt(size) );
 		
 		Image tmp = new ImageIcon(currentCameraImage).getImage();
 		
@@ -117,24 +100,79 @@ public class ImagePanel extends JPanel implements StatusListener
 					);
 	}
 	
-	private void getImageFileNames()
-	{	
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
-		{
-			fileNames = new BufferedReader( new InputStreamReader(is) ).lines().collect( Collectors.toList() );
-		}
-		catch(Exception exp)
-		{
-			JOptionPane.showMessageDialog
-				(
-					null,
-					"Unable To Find A Critical Resource, Application Will Now Terminate",
-					"ERROR",
-					JOptionPane.ERROR_MESSAGE
-				);
-				
-			System.exit(1);
-		}
+	private void loadImages()
+	{
+		java.util.List<Path> cameraList = null;
+		
+		boolean repeat = true; int n;
+		
+		do {
+		
+			try( Stream<Path> pStream = Files.walk( Path.of(".").toAbsolutePath().resolve("..").normalize(), 5 ) )
+			{
+				cameraList = pStream.filter( p -> Files.isDirectory(p) )
+									.filter( p -> p.getFileName().toString().equalsIgnoreCase("camera") )
+									.collect( Collectors.toList() );
+			}
+			catch(Exception exp)
+			{
+				if( showDialog("No Camera Found") == 1 )
+					System.exit(1);
+			}
+		
+			if( cameraList.size() == 0 )
+			{
+				if( showDialog("No Camera Found") == 1 )
+					System.exit(1);
+			}
+			else
+				repeat = false;
+		
+		} while(repeat);
+		
+		Set<BufferedImage> imageSet = new HashSet<>();
+		BufferedImage img;
+		
+		repeat = true;
+		
+		do {
+		
+			for(Path cam: cameraList)
+			{
+   				try( DirectoryStream<Path> stream = Files.newDirectoryStream(cam) )
+				{
+					for(Path P: stream)
+					{
+						try
+						{
+							img = ImageIO.read( P.toFile() );
+					
+							if( img != null )
+								imageSet.add(img);
+						}
+						catch(Throwable exp)
+						{
+							continue;
+						}
+					}
+				}
+				catch(Throwable exp)
+				{
+					continue;
+				}
+			}
+		
+			bImages = new ArrayList<>(imageSet);
+			
+			if( bImages.size() == 0 )
+			{
+				if( showDialog("Cannot Get A Camera Feed") == 1 )
+					System.exit(1);
+			}
+			else
+				repeat = false;
+		
+		} while(repeat);
 		
 		//JOptionPane.showMessageDialog(null, "image count: " + bImages.size());
 	}
