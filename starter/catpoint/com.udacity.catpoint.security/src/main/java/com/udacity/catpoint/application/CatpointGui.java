@@ -18,6 +18,9 @@ import javax.inject.Inject;
 
 import java.io.InputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * This is the primary JFrame for the application that contains all the top-level JPanels.
@@ -61,7 +64,11 @@ public class CatpointGui extends JFrame
 			ImageIcon icon = new ImageIcon( is.readAllBytes() );
 			setIconImage( icon.getImage() );
 		}
-		catch(Exception e) {}
+		catch(Exception e)
+		{
+			Logger log = LoggerFactory.getLogger(CatpointGui.class);
+			log.info("No Icon", e);
+		}
 		
 		//ImageIcon icon = new ImageIcon( getClass().getResource("no-cats.jpeg").toString() );
 		

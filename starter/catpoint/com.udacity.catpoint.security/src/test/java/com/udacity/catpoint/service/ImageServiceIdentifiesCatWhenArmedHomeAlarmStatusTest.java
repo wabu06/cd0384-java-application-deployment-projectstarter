@@ -49,7 +49,9 @@ public class ImageServiceIdentifiesCatWhenArmedHomeAlarmStatusTest  // No. 7
 		when( mockImageService.imageContainsCat( any(BufferedImage.class), anyFloat() ) ).thenReturn(Boolean.TRUE);
 		
 		securityService.setArmingStatus(ArmingStatus.ARMED_HOME);
+		
 		//securityService.catDetected(Boolean.TRUE);
+		
 		securityService.processImage( new BufferedImage(10, 10, BufferedImage.TYPE_INT_RGB) );
 		
 		assertEquals( AlarmStatus.ALARM, securityService.getAlarmStatus() );

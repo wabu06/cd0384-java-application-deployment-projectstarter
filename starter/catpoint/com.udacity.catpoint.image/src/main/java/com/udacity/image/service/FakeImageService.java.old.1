@@ -28,14 +28,18 @@ public class FakeImageService implements ImageService
 	{
 		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/sample-cat.jpg") )
 		{
-			BufferedImage img = ImageIO.read(is);
+			try
+			{
+				BufferedImage img = ImageIO.read(is);
 					
-			int w = img.getWidth();
-			int h = img.getHeight();
+				int w = img.getWidth();
+				int h = img.getHeight();
 					
-			int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
+				int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
 					
-			imgHash = Arrays.hashCode(rgb);
+				imgHash = Arrays.hashCode(rgb);
+			}
+			catch(Exception exp) { System.out.println(exp + ": File I/O Error"); }
 		}
 		catch(Exception exp)
 		{
@@ -49,6 +53,13 @@ public class FakeImageService implements ImageService
 
 			System.exit(1);
 		}
+		
+		/* try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
+		{
+			Stream<String> entries = new BufferedReader( new InputStreamReader(is) ).lines();
+			System.out.println(entries.findAny().get());
+		}
+		catch(Exception exp) {} */
 	}
 
     @Override
@@ -61,8 +72,6 @@ public class FakeImageService implements ImageService
 		
 		int[] rgb = image.getRGB(0, 0, w, h, null, 0, w);
 		
-		boolean confident = (r.nextFloat()*confidenceThreshhold) > (0.025*confidenceThreshhold);
-		
-		return (Arrays.hashCode(rgb) == imgHash) && confident;
+		return Arrays.hashCode(rgb) == imgHash;
     }
 }

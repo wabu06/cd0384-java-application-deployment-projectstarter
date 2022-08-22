@@ -13,6 +13,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.io.IOException;
 
+import java.nio.charset.Charset;
+import java.time.Instant;
+
 import java.util.*;
 //import java.nio.file.*;
 import java.util.stream.*;
@@ -32,7 +35,7 @@ public class ImagePanel extends JPanel implements StatusListener
     
     private java.util.List<String> fileNames;
 	
-	private Random RNG = new Random();
+	private Random RNG = new Random( Instant.now().toEpochMilli() );
 
     private int IMAGE_WIDTH = 300;
     private int IMAGE_HEIGHT = 225;
@@ -121,7 +124,7 @@ public class ImagePanel extends JPanel implements StatusListener
 	{	
 		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/manifest.img") )
 		{
-			fileNames = new BufferedReader( new InputStreamReader(is) ).lines().collect( Collectors.toList() );
+			fileNames = new BufferedReader( new InputStreamReader(is, Charset.defaultCharset()) ).lines().collect( Collectors.toList() );
 		}
 		catch(Exception exp)
 		{

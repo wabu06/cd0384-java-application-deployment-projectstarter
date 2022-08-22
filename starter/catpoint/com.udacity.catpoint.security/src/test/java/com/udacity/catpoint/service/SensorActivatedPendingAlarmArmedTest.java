@@ -49,6 +49,7 @@ public class SensorActivatedPendingAlarmArmedTest  // No 1
 		
 		SensorTestPanel panel = new SensorTestPanel(securityService);
 		
+			// create a sensor
 		panel.getSensorTypeDropdown().setSelectedItem(type);
 		panel.getAddSensorBttn().doClick();
 		
@@ -57,10 +58,12 @@ public class SensorActivatedPendingAlarmArmedTest  // No 1
 			securityService.setAlarmStatus(AlarmStatus.NO_ALARM);
 			securityService.setArmingStatus(AS);
 				
+				// activate sensor
 			panel.getSensorToggleBttn(0).doClick();
 		
 			assertEquals( AlarmStatus.PENDING_ALARM, securityService.getAlarmStatus() );
 			
+				// deactivate sensor for next iteration
 			panel.getSensorToggleBttn(0).doClick();
 		} 
 	}

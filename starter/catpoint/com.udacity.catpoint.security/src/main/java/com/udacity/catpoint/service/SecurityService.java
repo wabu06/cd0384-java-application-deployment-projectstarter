@@ -15,6 +15,9 @@ import java.util.Set;
 import com.google.inject.Guice;
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Service that receives information about changes to the security system. Responsible for
@@ -25,22 +28,20 @@ import javax.inject.Inject;
  */
 public class SecurityService
 {
-    	//private FakeImageService imageService;
-	//@Inject
 	private ImageService imageService;
 	
     private SecurityRepository securityRepository;
     private Set<StatusListener> statusListeners = new HashSet<>();
 
-	//public SecurityService(SecurityRepository securityRepository)
 	@Inject
 	public SecurityService(SecurityRepository securityRepository, ImageService imageService)
 	{
         this.securityRepository = securityRepository;
-        //this.imageService = new FakeImageService();
+
 		this.imageService = imageService;
 		
-		//Guice.createInjector( new ImageServiceModule() ).injectMembers(this);
+		//Logger log = LoggerFactory.getLogger(SecurityService.class);
+		//log.info("Using: " + this.imageService.getClass() );
     }
 
     /**

@@ -68,6 +68,7 @@ public class ActivatedActiveSensorPendingToAlarmStateTest  // No 5
 		for(ArmingStatus S: armingStatusList)
 		{
 			securityService.setArmingStatus(S);
+			securityService.setAlarmStatus(AlarmStatus.NO_ALARM);
 		
 				// activate first sensor
 			panel.getSensorToggleBttn(0).doClick();
@@ -77,7 +78,6 @@ public class ActivatedActiveSensorPendingToAlarmStateTest  // No 5
 		
 			assertEquals( AlarmStatus.ALARM, securityService.getAlarmStatus() );
 			
-				// reset alarm 
 			securityService.setArmingStatus(ArmingStatus.DISARMED);
 			
 				// deactivate sensors
