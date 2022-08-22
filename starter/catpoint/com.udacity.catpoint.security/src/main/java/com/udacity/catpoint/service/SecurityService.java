@@ -15,8 +15,6 @@ import java.util.Set;
 import com.google.inject.Guice;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -39,9 +37,6 @@ public class SecurityService
         this.securityRepository = securityRepository;
 
 		this.imageService = imageService;
-		
-		//Logger log = LoggerFactory.getLogger(SecurityService.class);
-		//log.info("Using: " + this.imageService.getClass() );
     }
 
     /**

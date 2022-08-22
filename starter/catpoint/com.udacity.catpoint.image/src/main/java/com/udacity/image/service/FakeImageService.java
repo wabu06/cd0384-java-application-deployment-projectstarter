@@ -11,6 +11,9 @@ import java.io.*;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 
 // int[] dataBuffInt = image.getRGB(0, 0, w, h, null, 0, w);
@@ -49,6 +52,9 @@ public class FakeImageService implements ImageService
 
 			System.exit(1);
 		}
+		
+		Logger log = LoggerFactory.getLogger(FakeImageService.class);
+		log.info("Using: " + this.getClass() );
 	}
 
     @Override

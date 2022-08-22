@@ -36,6 +36,8 @@ public class ImagePanel extends JPanel implements StatusListener
     private java.util.List<String> fileNames;
 	
 	private Random RNG = new Random( Instant.now().toEpochMilli() );
+	
+	private int idx; // filenames list index
 
     private int IMAGE_WIDTH = 300;
     private int IMAGE_HEIGHT = 225;
@@ -72,14 +74,23 @@ public class ImagePanel extends JPanel implements StatusListener
         add(refreshButton);
         add(scanPictureButton);
 		
+		idx = RNG.nextInt( fileNames.size() );
+		
 		showRandImage();
     }
 	
 	private void showRandImage()
 	{
-		int size = fileNames.size();
+		//int size = fileNames.size();
 		
-		try( InputStream is = getClass().getClassLoader().getResourceAsStream( "camera/" + fileNames.get( RNG.nextInt(size) ) ) )
+		if( idx <  fileNames.size() - 1 )
+			idx++;
+		else
+			idx = 0;
+			
+		//System.out.println( idx + "\t" + fileNames.size() );
+		
+		try( InputStream is = getClass().getClassLoader().getResourceAsStream( "camera/" + fileNames.get(idx) ) )
 		{
 			currentCameraImage = ImageIO.read(is);
 		}
