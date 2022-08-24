@@ -150,8 +150,13 @@ public class ImagePanel extends JPanel implements StatusListener
 			System.exit(1);
 		}
 		
-		Collections.shuffle(fileNames, RNG);
+		int j;
 		
+		for(int i = 0; i < fileNames.size(); i++)
+		{
+			j = RNG.nextInt( fileNames.size() );
+			Collections.swap(fileNames, i, j);
+		}
 		//JOptionPane.showMessageDialog(null, "image count: " + bImages.size());
 	}
 
