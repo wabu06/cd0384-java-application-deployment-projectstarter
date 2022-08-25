@@ -22,7 +22,7 @@ public class FakeImageService implements ImageService
 {
     private final Random r = new Random();
 	
-	int imgHash = 0;
+	int catHash = 0, cat1Hash = 0;
 	
 	public FakeImageService()
 	{
@@ -35,7 +35,7 @@ public class FakeImageService implements ImageService
 					
 			int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
 					
-			imgHash = Arrays.hashCode(rgb);
+			catHash = Arrays.hashCode(rgb);
 		}
 		catch(Exception exp)
 		{
@@ -50,8 +50,29 @@ public class FakeImageService implements ImageService
 			System.exit(1);
 		}
 		
-		//Logger log = LoggerFactory.getLogger(FakeImageService.class);
-		log.info("Using: " + this.getClass() );
+		try( InputStream is = getClass().getClassLoader().getResourceAsStream("camera/sample-cat1.jpg") )
+		{
+			BufferedImage img = ImageIO.read(is);
+					
+			int w = img.getWidth();
+			int h = img.getHeight();
+					
+			int[] rgb = img.getRGB(0, 0, w, h, null, 0, w);
+					
+			cat1Hash = Arrays.hashCode(rgb);
+		}
+		catch(Exception exp)
+		{
+			JOptionPane.showMessageDialog
+				(
+					null,
+					"Unable To Find A Critical Resource, Application Will Now Terminate",
+					"ERROR",
+					JOptionPane.ERROR_MESSAGE
+				);
+
+			System.exit(1);
+		}
 	}
 
     @Override
@@ -64,8 +85,8 @@ public class FakeImageService implements ImageService
 		
 		int[] rgb = image.getRGB(0, 0, w, h, null, 0, w);
 		
-		boolean confident = (r.nextFloat()*confidenceThreshhold) > (0.025*confidenceThreshhold);
+		boolean confident = r.nextFloat() > (0.001*confidenceThreshhold);
 		
-		return (Arrays.hashCode(rgb) == imgHash) && confident;
+		return (Arrays.hashCode(rgb) == catHash) || (Arrays.hashCode(rgb) == cat1Hash) && confident;
     }
 }

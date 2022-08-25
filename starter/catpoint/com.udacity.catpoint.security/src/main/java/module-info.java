@@ -12,4 +12,6 @@ module com.udacity.catpoint.security
 	opens com.udacity.catpoint.data;
 	
 	opens com.udacity.catpoint.service;
+	
+	requires org.slf4j;
 }

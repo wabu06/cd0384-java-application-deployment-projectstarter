@@ -16,7 +16,6 @@ import com.google.inject.Guice;
 import javax.inject.Inject;
 
 
-
 /**
  * Service that receives information about changes to the security system. Responsible for
  * forwarding updates to the repository and making any decisions about changing the system state.
@@ -37,6 +36,8 @@ public class SecurityService
         this.securityRepository = securityRepository;
 
 		this.imageService = imageService;
+		
+		imageService.log.info("Using: " + imageService.getClass() );
     }
 
     /**
