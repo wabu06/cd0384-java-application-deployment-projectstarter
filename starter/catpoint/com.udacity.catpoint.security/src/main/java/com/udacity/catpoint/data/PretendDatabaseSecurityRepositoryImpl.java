@@ -29,11 +29,11 @@ public class PretendDatabaseSecurityRepositoryImpl implements SecurityRepository
 
     public PretendDatabaseSecurityRepositoryImpl()
 	{
-		try
+		/* try
 		{
         	prefs.clear();
 		}
-		catch(Exception exp) {}
+		catch(Exception exp) {} */
 		
 		//load system state from prefs, or else default
         alarmStatus = AlarmStatus.valueOf(prefs.get(ALARM_STATUS, AlarmStatus.NO_ALARM.toString()));

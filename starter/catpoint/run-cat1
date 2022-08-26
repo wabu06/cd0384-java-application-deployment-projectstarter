@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-
-CPATH=~/My_Progs/java/udacity/AppDeployProject/starter/catpoint/com.udacity.catpoint.security/target/com.udacity.catpoint.security-1.0-SNAPSHOT.jar
-
-java -cp $CPATH com.udacity.catpoint.application.CatpointApp
