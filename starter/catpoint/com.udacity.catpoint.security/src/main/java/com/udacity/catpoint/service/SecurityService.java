@@ -103,7 +103,8 @@ public class SecurityService
     /**
      * Internal method for updating the alarm status when a sensor has been activated.
      */
-    private void handleSensorActivated() {
+    private void handleSensorActivated()
+	{
         if(securityRepository.getArmingStatus() == ArmingStatus.DISARMED) {
             return; //no problem if the system is disarmed
         }
@@ -117,7 +118,8 @@ public class SecurityService
     /**
      * Internal method for updating the alarm status when a sensor has been deactivated
      */
-    private void handleSensorDeactivated() {
+    private void handleSensorDeactivated()
+	{
         switch(securityRepository.getAlarmStatus()) {
             case PENDING_ALARM: /* PENDING_ALARM -> */ setAlarmStatus(AlarmStatus.NO_ALARM);
             	//break;
@@ -130,13 +132,15 @@ public class SecurityService
      * @param sensor
      * @param active
      */
-    public void changeSensorActivationStatus(Sensor sensor, Boolean active) {
+    public void changeSensorActivationStatus(Sensor sensor, Boolean active)
+	{
         if(!sensor.getActive() && active) {
             handleSensorActivated();
         } else if (sensor.getActive() && !active) {
             handleSensorDeactivated();
-        }
-        sensor.setActive(active);
+        } 
+        
+		sensor.setActive(active);
         securityRepository.updateSensor(sensor);
     }
 

@@ -123,13 +123,15 @@ public class SensorTestPanel extends JPanel {
      * Adds a sensor to the securityService and then rebuilds the sensor list
      * @param sensor The sensor to add
      */
-    private void addSensor(Sensor sensor) {
-        if(securityService.getSensors().size() < 4) {
+    private void addSensor(Sensor sensor)
+    {
+        if(securityService.getSensors().size() < 4)
+        {
             securityService.addSensor(sensor);
             updateSensorList(sensorListPanel);
-        } else {
-            JOptionPane.showMessageDialog(null, "To add more than 4 sensors, please subscribe to our Premium Membership!");
         }
+        else
+        	JOptionPane.showMessageDialog(null, "To add more than 4 sensors, please subscribe to our Premium Membership!");
     }
 
     /**
