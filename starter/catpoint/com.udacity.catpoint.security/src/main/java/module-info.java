@@ -9,7 +9,7 @@ module com.udacity.catpoint.security
 	requires com.google.guice;
 	requires javax.inject;
 	
-	opens com.udacity.catpoint.service;
+	opens com.udacity.catpoint.service to com.google.guice;
 	
 	requires org.slf4j;
 }
